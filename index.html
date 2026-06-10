@@ -10,17 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
 <style>
 /* ──────────────────────────────────────────────
-   BLADE OF SHADOW — design tokens
-   In'ei Raisan: light is rare, therefore precious.
+   BLADE OF SHADOW — ink on paper
+   Sumi-e logic: the mark is rare, therefore precious.
 ─────────────────────────────────────────────── */
 :root{
-  --ink:#0a0908;          /* the room */
-  --ink-2:#100e0c;        /* a slightly nearer dark */
-  --candle:#e8ddc7;       /* text: candlelight on old paper */
-  --candle-dim:#8a8273;   /* text receding into shadow */
-  --gold:#c9a227;         /* lacquerwork glimpsed in darkness */
-  --steel-hi:#dfe4ea;     /* katana: cold light on metal */
-  --steel-lo:#3a3f47;
+  --paper:#ece5d5;        /* washi */
+  --paper-2:#e3dac6;      /* a slightly warmer sheet */
+  --ink:#1a1712;          /* sumi ink */
+  --ink-dim:#6e6452;      /* ink thinned with water */
+  --gold:#a8862e;         /* lacquer accent */
+  --night:#0a0908;        /* the gate, and the dark pane */
+  --night-text:#e8ddc7;
   --serif:'Cormorant Garamond',serif;
   --sans:'Jost',sans-serif;
   --jp:'Noto Serif JP',serif;
@@ -28,26 +28,26 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  background:var(--ink);
-  color:var(--candle);
+  background:var(--paper);
+  color:var(--ink);
   font-family:var(--sans);
   font-weight:300;
   letter-spacing:.02em;
   overflow-x:hidden;
 }
-::selection{background:var(--gold);color:var(--ink)}
+::selection{background:var(--gold);color:var(--paper)}
 img{max-width:100%;display:block}
 a{color:inherit}
 
-/* film grain */
+/* paper grain */
 body::after{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.05;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
-/* ───── ENTRY GATE ───── */
+/* ───── ENTRY GATE — through shadow, into light ───── */
 #gate{
-  position:fixed;inset:0;z-index:100;background:var(--ink);
+  position:fixed;inset:0;z-index:100;background:var(--night);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
   transition:opacity 1.6s ease, visibility 1.6s;
 }
@@ -58,137 +58,146 @@ body::after{
   line-height:1;user-select:none;
 }
 #gate .name{
-  font-family:var(--sans);font-weight:400;letter-spacing:.55em;text-indent:.55em;
-  font-size:.8rem;text-transform:uppercase;color:var(--candle-dim);
+  font-weight:400;letter-spacing:.55em;text-indent:.55em;
+  font-size:.8rem;text-transform:uppercase;color:rgba(232,221,199,.55);
 }
 #enter{
-  background:none;border:1px solid rgba(201,162,39,.4);color:var(--gold);
+  background:none;border:1px solid rgba(201,162,39,.4);color:#c9a227;
   font-family:var(--sans);font-weight:300;letter-spacing:.4em;text-indent:.4em;
   text-transform:uppercase;font-size:.7rem;padding:.9rem 2.6rem;cursor:pointer;
-  transition:border-color .6s,background .6s,color .6s;
+  transition:border-color .6s,background .6s;
 }
-#enter:hover,#enter:focus-visible{border-color:var(--gold);background:rgba(201,162,39,.08)}
-#enter:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+#enter:hover,#enter:focus-visible{border-color:#c9a227;background:rgba(201,162,39,.08)}
+#enter:focus-visible{outline:1px solid #c9a227;outline-offset:4px}
 
 /* ───── HERO ───── */
 .hero{
-  position:relative;min-height:100vh;
+  position:relative;min-height:96vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:2rem;
-}
-/* candlelight follows the cursor — texture revealed only where light falls */
-#candle-glow{
-  position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(360px circle at var(--cx,50%) var(--cy,40%),
-    rgba(201,162,39,.07), rgba(201,162,39,.025) 35%, transparent 70%);
-  transition:background .05s linear;
+  text-align:center;padding:2rem;overflow:hidden;
 }
 .hero .kage{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);
   font-family:var(--jp);font-weight:200;font-size:clamp(16rem,52vw,38rem);
-  color:transparent;-webkit-text-stroke:1px rgba(232,221,199,.06);
+  color:transparent;-webkit-text-stroke:1px rgba(26,23,18,.07);
   user-select:none;pointer-events:none;line-height:1;
 }
-/* the blade: a vertical strip of steel; its glint follows the cursor */
+/* the blade: a line of ink; its glint follows the cursor */
 .blade{
   position:absolute;top:8%;bottom:8%;left:50%;width:2px;transform:translateX(-50%);
   background:linear-gradient(to bottom,transparent,
-    var(--steel-lo) 12%, var(--steel-lo) 88%, transparent);
+    rgba(26,23,18,.5) 12%, rgba(26,23,18,.5) 88%, transparent);
   pointer-events:none;
 }
 .blade::before{
   content:"";position:absolute;left:-1px;width:4px;height:140px;
   top:calc(var(--gy,40%) - 70px);
   background:linear-gradient(to bottom,transparent,
-    rgba(223,228,234,.25) 25%, var(--steel-hi) 50%, rgba(223,228,234,.25) 75%, transparent);
+    rgba(168,134,46,.35) 25%, #fffdf5 50%, rgba(168,134,46,.35) 75%, transparent);
   filter:blur(.4px);
   transition:top .12s ease-out;
 }
-.blade::after{ /* the flash of light leaving the edge */
+.blade::after{
   content:"";position:absolute;left:-14px;width:30px;height:46px;
   top:calc(var(--gy,40%) - 23px);
-  background:radial-gradient(closest-side,rgba(223,228,234,.18),transparent);
+  background:radial-gradient(closest-side,rgba(255,253,245,.5),transparent);
   transition:top .12s ease-out;
 }
 .hero-inner{position:relative;z-index:2}
 .eyebrow{
   font-size:.68rem;letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;
-  color:var(--candle-dim);margin-bottom:2.2rem;
+  color:var(--ink-dim);margin-bottom:2.2rem;
 }
 h1{
   font-family:var(--serif);font-weight:300;
   font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.08;letter-spacing:.06em;
 }
 .jp-echo{
-  font-family:var(--jp);font-weight:200;font-size:clamp(1rem,2.4vw,1.4rem);
-  color:var(--candle-dim);margin-top:1.4rem;letter-spacing:.6em;text-indent:.6em;
+  font-family:var(--jp);font-weight:300;font-size:clamp(1rem,2.4vw,1.4rem);
+  color:var(--ink-dim);margin-top:1.4rem;letter-spacing:.6em;text-indent:.6em;
 }
 .premiere{
   margin-top:3.4rem;font-size:.72rem;letter-spacing:.34em;text-indent:.34em;
   text-transform:uppercase;color:var(--gold);
 }
-.premiere span{display:block;margin-top:.7rem;color:var(--candle-dim);letter-spacing:.28em}
+.premiere span{display:block;margin-top:.7rem;color:var(--ink-dim);letter-spacing:.28em}
 .scroll-hint{
   position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
   font-size:.6rem;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;
-  color:var(--candle-dim);opacity:.6;
+  color:var(--ink-dim);opacity:.7;
 }
+/* cranes — ink strokes crossing the paper */
+.crane{
+  position:absolute;z-index:1;pointer-events:none;opacity:0;
+  animation:crane-drift var(--dur,52s) linear var(--delay,0s) infinite;
+  top:var(--top,20%);
+}
+.crane svg{display:block;width:var(--size,42px);height:auto}
+@keyframes crane-drift{
+  0%{transform:translateX(-8vw) translateY(0) scale(1);opacity:0}
+  6%{opacity:.45}
+  50%{transform:translateX(50vw) translateY(calc(var(--dip,18px)*-1)) scale(1.04)}
+  94%{opacity:.45}
+  100%{transform:translateX(108vw) translateY(6px) scale(1);opacity:0}
+}
+@media (prefers-reduced-motion:reduce){.crane{display:none}}
 
 /* ───── SECTIONS ───── */
-section{padding:9rem 2rem;max-width:1100px;margin:0 auto;position:relative}
+section{padding:7rem 2rem;max-width:1100px;margin:0 auto;position:relative}
 .label{
   font-size:.66rem;letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;
   color:var(--gold);margin-bottom:1.1rem;
 }
-.label .jp{font-family:var(--jp);letter-spacing:.3em;color:var(--candle-dim);margin-left:1em}
+.label .jp{font-family:var(--jp);letter-spacing:.3em;color:var(--ink-dim);margin-left:1em}
 h2{
   font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,4.5vw,3rem);
   letter-spacing:.04em;margin-bottom:1.6rem;
 }
-.lede{max-width:46ch;color:var(--candle-dim);line-height:1.9;font-size:.95rem}
+.lede{max-width:46ch;color:var(--ink-dim);line-height:1.9;font-size:.95rem}
 
 .reveal{opacity:0;transform:translateY(26px);transition:opacity 1.4s ease,transform 1.4s ease}
 .reveal.in{opacity:1;transform:none}
 
-/* ───── VIDEO PLACEHOLDERS ─────
-   To go live: delete the .ph-inner div and uncomment the Vimeo iframe below it.
-*/
-.video-frame{
-  position:relative;aspect-ratio:16/9;margin-top:3rem;
-  background:var(--ink-2);border:1px solid rgba(232,221,199,.09);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.ph-inner{text-align:center;padding:2rem}
-.ph-mark{
-  width:64px;height:64px;border:1px solid rgba(201,162,39,.5);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;
-}
-.ph-mark::after{
-  content:"";display:block;border-style:solid;border-width:9px 0 9px 15px;
-  border-color:transparent transparent transparent var(--gold);margin-left:4px;
-}
-.ph-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;letter-spacing:.1em}
-.ph-sub{margin-top:.8rem;font-size:.65rem;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;color:var(--candle-dim)}
-
 /* ───── THE PARADOX — draggable diptych ───── */
-.paradox-wrap{margin-top:3.4rem;user-select:none}
+.paradox{padding-top:4.5rem}
+.paradox-wrap{margin-top:2.2rem;user-select:none}
 .diptych{
-  position:relative;height:min(72vh,560px);overflow:hidden;
-  border:1px solid rgba(232,221,199,.09);cursor:ew-resize;touch-action:none;
+  position:relative;height:min(74vh,580px);overflow:hidden;
+  border:1px solid rgba(26,23,18,.18);cursor:ew-resize;touch-action:none;
+  background:var(--paper-2);
 }
-.pane{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;padding:2rem;text-align:center}
-.pane .big-kanji{font-family:var(--jp);font-weight:200;font-size:clamp(7rem,24vw,15rem);line-height:1}
-.pane h3{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2.6vw,1.7rem);letter-spacing:.06em;max-width:18ch}
-.pane .who{font-size:.62rem;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase}
+.pane{position:absolute;inset:0}
+.pane .who-block{
+  position:absolute;bottom:2rem;max-width:44%;
+}
+.pane h3{font-family:var(--serif);font-weight:300;font-size:clamp(1.05rem,2.4vw,1.55rem);letter-spacing:.05em;line-height:1.3}
+.pane .who{margin-top:.8rem;font-size:.6rem;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase}
 /* LIGHT: the Japanese artist who chose Europe */
-.pane.light{background:#ddd5c2;color:#16130f}
-.pane.light .big-kanji{color:transparent;-webkit-text-stroke:1px rgba(22,19,15,.3)}
-.pane.light .who{color:#6e6452}
+.pane.light{background:var(--paper-2);color:var(--ink)}
+.pane.light .who-block{left:2rem;text-align:left}
+.pane.light .who{color:var(--ink-dim)}
+.pane.light .big-kanji{
+  position:absolute;top:8%;left:6%;
+  font-family:var(--jp);font-weight:200;font-size:clamp(6rem,18vw,12rem);line-height:1;
+  color:transparent;-webkit-text-stroke:1px rgba(26,23,18,.22);
+}
+/* PHOTO TARO: when his portrait arrives, add inside .pane.light, before .big-kanji:
+   <img class="pane-photo" src="images/taro-diptych.jpg" alt="Taro">
+   and the kanji will sit on top of it. */
 /* DARK: the European artist who chose Japan */
-.pane.dark{background:var(--ink-2);color:var(--candle);clip-path:inset(0 0 0 var(--split,50%))}
-.pane.dark .big-kanji{color:transparent;-webkit-text-stroke:1px rgba(232,221,199,.25)}
-.pane.dark .who{color:var(--candle-dim)}
+.pane.dark{background:var(--night);color:var(--night-text);clip-path:inset(0 0 0 var(--split,50%))}
+.pane.dark .who-block{right:2rem;text-align:right}
+.pane.dark .who{color:rgba(232,221,199,.6)}
+.pane-photo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;
+  filter:grayscale(1) contrast(1.06);
+}
+.pane.dark .pane-photo{opacity:.85}
+.pane.dark::after{ /* keeps the caption readable over the photo */
+  content:"";position:absolute;inset:auto 0 0 0;height:42%;
+  background:linear-gradient(to top,rgba(10,9,8,.85),transparent);
+}
+.pane.dark .who-block{z-index:2}
 .divider{
   position:absolute;top:0;bottom:0;left:var(--split,50%);width:1px;
   background:var(--gold);z-index:3;
@@ -196,112 +205,74 @@ h2{
 .divider::after{
   content:"⟷";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;
-  background:var(--ink);color:var(--gold);
+  background:var(--paper);color:var(--gold);
   display:flex;align-items:center;justify-content:center;font-size:.85rem;
 }
 .paradox-caption{
-  margin-top:1.6rem;text-align:center;font-size:.7rem;letter-spacing:.3em;text-indent:.3em;
-  text-transform:uppercase;color:var(--candle-dim);
+  margin-top:1.4rem;text-align:center;font-size:.66rem;letter-spacing:.3em;text-indent:.3em;
+  text-transform:uppercase;color:var(--ink-dim);
+}
+
+/* ───── VIDEO PLACEHOLDERS ─────
+   To go live: delete the .ph-inner div and uncomment the Vimeo iframe below it. */
+.video-frame{
+  position:relative;aspect-ratio:16/9;margin-top:3rem;
+  background:var(--night);border:1px solid rgba(26,23,18,.15);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  color:var(--night-text);
+}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ph-inner{text-align:center;padding:2rem}
+.ph-mark{
+  width:64px;height:64px;border:1px solid rgba(201,162,39,.6);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;
+}
+.ph-mark::after{
+  content:"";display:block;border-style:solid;border-width:9px 0 9px 15px;
+  border-color:transparent transparent transparent #c9a227;margin-left:4px;
+}
+.ph-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;letter-spacing:.1em}
+.ph-sub{margin-top:.8rem;font-size:.65rem;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;color:rgba(232,221,199,.6)}
+
+/* ───── VISIONS — one framed image ───── */
+.vision-figure{
+  margin:3rem auto 0;max-width:760px;
+  border:1px solid rgba(26,23,18,.18);padding:14px;background:#f2ecdd;
+  box-shadow:0 1px 0 rgba(26,23,18,.06);
+}
+.vision-figure img{filter:grayscale(1) contrast(1.05)}
+.vision-figure figcaption{
+  padding:1.1rem .4rem .4rem;text-align:center;
+  font-size:.62rem;letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;color:var(--ink-dim);
 }
 
 /* ───── THE COMPANY ───── */
 .company{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2.4rem;margin-top:3.4rem}
 .member .portrait{
-  aspect-ratio:3/4;background:var(--ink-2);border:1px solid rgba(232,221,199,.09);
+  aspect-ratio:3/4;background:var(--paper-2);border:1px solid rgba(26,23,18,.18);
   display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
 }
 .member .portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
 .member .portrait .ph-kanji{
   font-family:var(--jp);font-weight:200;font-size:5rem;
-  color:transparent;-webkit-text-stroke:1px rgba(232,221,199,.16);
+  color:transparent;-webkit-text-stroke:1px rgba(26,23,18,.2);
 }
 .member h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;letter-spacing:.05em;margin-top:1.3rem}
-.member .role{margin-top:.45rem;font-size:.64rem;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--candle-dim)}
+.member .role{margin-top:.45rem;font-size:.64rem;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--ink-dim)}
 .member .nation{margin-top:.45rem;font-size:.64rem;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--gold)}
-.member .status{margin-top:.6rem;font-size:.58rem;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;color:var(--candle-dim);opacity:.7}
-
-/* ───── VISIONS — key visual, cranes, byōbu ───── */
-.visions{max-width:none;padding:0;position:relative}
-.key-visual{
-  position:relative;height:min(110vh,900px);overflow:hidden;
-}
-.key-visual img{
-  width:100%;height:100%;object-fit:cover;object-position:center 30%;
-  filter:grayscale(1) contrast(1.06);
-}
-.key-visual::after{ /* vignette so the photo dissolves into the room */
-  content:"";position:absolute;inset:0;
-  background:
-    linear-gradient(to bottom, var(--ink) 0%, transparent 18%, transparent 78%, var(--ink) 100%),
-    radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(10,9,8,.65) 100%);
-}
-.key-caption{
-  position:absolute;left:50%;bottom:9%;transform:translateX(-50%);z-index:2;
-  text-align:center;width:min(90%,640px);
-}
-.key-caption h2{margin-bottom:.9rem;text-shadow:0 0 30px rgba(10,9,8,.9)}
-.key-caption p{
-  font-size:.66rem;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;
-  color:var(--candle-dim);
-}
-/* cranes — paper birds crossing the dark */
-.crane{
-  position:absolute;z-index:3;pointer-events:none;opacity:0;
-  animation:crane-drift var(--dur,46s) linear var(--delay,0s) infinite;
-  top:var(--top,30%);
-}
-.crane svg{display:block;width:var(--size,46px);height:auto;
-  filter:drop-shadow(0 0 6px rgba(232,221,199,.12))}
-@keyframes crane-drift{
-  0%{transform:translateX(-8vw) translateY(0) scale(1);opacity:0}
-  6%{opacity:.5}
-  50%{transform:translateX(50vw) translateY(calc(var(--dip,18px)*-1)) scale(1.04)}
-  94%{opacity:.5}
-  100%{transform:translateX(108vw) translateY(6px) scale(1);opacity:0}
-}
-@media (prefers-reduced-motion:reduce){.crane{display:none}}
-
-/* byōbu — a folding screen of moments */
-.byobu-wrap{max-width:1180px;margin:0 auto;padding:9rem 2rem}
-.byobu{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-  perspective:1600px;margin-top:3.4rem;
-}
-.fold{
-  position:relative;aspect-ratio:2/3.4;overflow:hidden;
-  border-top:1px solid rgba(201,162,39,.25);
-  border-bottom:1px solid rgba(201,162,39,.25);
-  background:var(--ink-2);
-}
-.fold img{
-  width:100%;height:100%;object-fit:cover;
-  filter:grayscale(1) contrast(1.05) brightness(.92);
-  transition:filter .8s ease,transform .8s ease;
-}
-.fold:nth-child(odd){transform:rotateY(7deg)}
-.fold:nth-child(even){transform:rotateY(-7deg)}
-.fold+.fold{border-left:1px solid rgba(201,162,39,.45)} /* the gold hinge */
-.fold:hover img,.fold:focus-within img{filter:grayscale(1) contrast(1.1) brightness(1.04);transform:scale(1.03)}
-.byobu-note{
-  margin-top:1.6rem;text-align:center;font-size:.62rem;letter-spacing:.34em;text-indent:.34em;
-  text-transform:uppercase;color:var(--candle-dim);
-}
-@media (max-width:760px){
-  .byobu{grid-template-columns:repeat(2,1fr)}
-  .fold:nth-child(-n+2){border-bottom:none}
-}
+.member .status{margin-top:.6rem;font-size:.58rem;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;color:var(--ink-dim);opacity:.8}
 
 /* ───── FOOTER ───── */
 footer{
-  border-top:1px solid rgba(232,221,199,.08);padding:4.5rem 2rem 3.5rem;
-  text-align:center;color:var(--candle-dim);font-size:.7rem;letter-spacing:.22em;
+  border-top:1px solid rgba(26,23,18,.15);padding:4.5rem 2rem 3.5rem;
+  text-align:center;color:var(--ink-dim);font-size:.7rem;letter-spacing:.22em;
 }
-footer .f-name{color:var(--candle);letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;margin-bottom:1.2rem;font-size:.72rem}
+footer .f-name{color:var(--ink);letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;margin-bottom:1.2rem;font-size:.72rem}
 footer a{color:var(--gold);text-decoration:none}
 footer a:hover{text-decoration:underline}
 #sound-toggle{
-  margin-top:2rem;background:none;border:1px solid rgba(232,221,199,.15);
-  color:var(--candle-dim);font-family:var(--sans);font-size:.6rem;
+  margin-top:2rem;background:none;border:1px solid rgba(26,23,18,.25);
+  color:var(--ink-dim);font-family:var(--sans);font-size:.6rem;
   letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;
   padding:.6rem 1.4rem;cursor:pointer;
 }
@@ -312,14 +283,17 @@ footer a:hover{text-decoration:underline}
   html{scroll-behavior:auto}
 }
 @media (max-width:640px){
-  section{padding:6rem 1.4rem}
+  section{padding:5rem 1.4rem}
   .blade{display:none}
+  .pane .who-block{max-width:46%;bottom:1.2rem}
+  .pane.light .who-block{left:1.2rem}
+  .pane.dark .who-block{right:1.2rem}
 }
 </style>
 </head>
 <body>
 
-<!-- ───── ENTRY GATE — one taiko strike, then the room opens ───── -->
+<!-- ───── ENTRY GATE — one taiko strike, then the paper opens ───── -->
 <div id="gate">
   <div class="kanji">影</div>
   <div class="name">Blade of Shadow</div>
@@ -328,9 +302,18 @@ footer a:hover{text-decoration:underline}
 
 <!-- ───── HERO ───── -->
 <header class="hero" id="hero">
-  <div id="candle-glow"></div>
   <div class="kage" aria-hidden="true">影</div>
   <div class="blade" aria-hidden="true"></div>
+  <div class="crane" style="--top:14%;--size:44px;--dur:48s;--delay:2s" aria-hidden="true">
+    <svg viewBox="0 0 100 60" fill="none" stroke="rgba(26,23,18,.5)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 34 L34 30 L50 36 L66 30 L96 22"/><path d="M34 30 L46 10 L52 34"/><path d="M50 36 L60 54"/>
+    </svg>
+  </div>
+  <div class="crane" style="--top:24%;--size:26px;--dur:64s;--delay:20s;--dip:26px" aria-hidden="true">
+    <svg viewBox="0 0 100 60" fill="none" stroke="rgba(26,23,18,.35)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 34 L34 30 L50 36 L66 30 L96 22"/><path d="M34 30 L46 10 L52 34"/><path d="M50 36 L60 54"/>
+    </svg>
+  </div>
   <div class="hero-inner">
     <p class="eyebrow">Stichting Action Performances presents</p>
     <h1>A Tale of Japan</h1>
@@ -342,51 +325,33 @@ footer a:hover{text-decoration:underline}
   <p class="scroll-hint">Scroll</p>
 </header>
 
-<!-- ───── VISIONS — show inspiration ───── -->
-<section class="visions" aria-label="Visions of the show">
-  <div class="key-visual">
-    <img src="images/duo.jpg" alt="Two performers — one in white, one in black — light and shadow on one stage">
-    <!-- cranes crossing the dark -->
-    <div class="crane" style="--top:16%;--size:44px;--dur:44s;--delay:0s">
-      <svg viewBox="0 0 100 60" fill="none" stroke="rgba(232,221,199,.65)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 34 L34 30 L50 36 L66 30 L96 22"/>
-        <path d="M34 30 L46 10 L52 34"/>
-        <path d="M50 36 L60 54"/>
-      </svg>
-    </div>
-    <div class="crane" style="--top:30%;--size:30px;--dur:58s;--delay:14s;--dip:26px">
-      <svg viewBox="0 0 100 60" fill="none" stroke="rgba(232,221,199,.5)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 34 L34 30 L50 36 L66 30 L96 22"/>
-        <path d="M34 30 L46 10 L52 34"/>
-        <path d="M50 36 L60 54"/>
-      </svg>
-    </div>
-    <div class="crane" style="--top:10%;--size:22px;--dur:66s;--delay:30s;--dip:12px">
-      <svg viewBox="0 0 100 60" fill="none" stroke="rgba(232,221,199,.4)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 34 L34 30 L50 36 L66 30 L96 22"/>
-        <path d="M34 30 L46 10 L52 34"/>
-        <path d="M50 36 L60 54"/>
-      </svg>
-    </div>
-    <div class="key-caption">
-      <h2>Light and shadow share one stage.</h2>
-      <p>Visions — toward A Tale of Japan</p>
-    </div>
+<!-- ───── THE PARADOX — draggable diptych ───── -->
+<section class="paradox">
+  <div class="reveal">
+    <p class="label">The Paradox <span class="jp">逆説</span></p>
+    <h2>Each crossed the world for the other's art.</h2>
   </div>
-
-  <div class="byobu-wrap">
-    <div class="reveal">
-      <p class="label">Visions <span class="jp">幻</span></p>
-      <h2>Fragments of a world taking shape</h2>
-      <p class="lede">Study images from the development of the show — blade, body, silence. Not the production itself, but the world it is drawn from.</p>
+  <div class="paradox-wrap reveal">
+    <div class="diptych" id="diptych" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Drag to move between the two artists">
+      <div class="pane light">
+        <!-- PHOTO TARO: when his portrait arrives, add here:
+        <img class="pane-photo" src="images/taro-diptych.jpg" alt="Taro"> -->
+        <div class="big-kanji" aria-hidden="true">舞</div>
+        <div class="who-block">
+          <h3>A Japanese artist who mastered European ballet</h3>
+          <p class="who">Taro — Japan</p>
+        </div>
+      </div>
+      <div class="pane dark">
+        <img class="pane-photo" src="images/blade-raised.jpg" alt="Szénási Gergely Zoltán, katana raised in a low stance">
+        <div class="who-block">
+          <h3>A Hungarian artist who mastered Japanese martial arts</h3>
+          <p class="who">Szénási Gergely Zoltán — Hungary</p>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
     </div>
-    <div class="byobu reveal" role="group" aria-label="Folding screen of study images">
-      <figure class="fold"><img src="images/dark-katana.jpg" alt="Performer in black holding a katana across the chest, lit by a single source"></figure>
-      <figure class="fold"><img src="images/white-kimono.jpg" alt="Performer in white kimono with sword, in a dance-like pose"></figure>
-      <figure class="fold"><img src="images/blade-raised.jpg" alt="Performer in a low stance, katana raised overhead"></figure>
-      <figure class="fold"><img src="images/seated-blade.jpg" alt="Seated performer holding a blade upright, light along its edge"></figure>
-    </div>
-    <p class="byobu-note">屏風 — a folding screen of moments</p>
+    <p class="paradox-caption">Drag the line — light and shadow meet on a Frisian stage</p>
   </div>
 </section>
 
@@ -413,28 +378,16 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
-<!-- ───── THE PARADOX — draggable diptych ───── -->
+<!-- ───── VISIONS — one image ───── -->
 <section>
   <div class="reveal">
-    <p class="label">The Paradox <span class="jp">逆説</span></p>
-    <h2>Each crossed the world for the other's art.</h2>
+    <p class="label">Visions <span class="jp">幻</span></p>
+    <h2>Light and shadow share one stage.</h2>
   </div>
-  <div class="paradox-wrap reveal">
-    <div class="diptych" id="diptych" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Drag to move between the two artists">
-      <div class="pane light">
-        <div class="big-kanji" aria-hidden="true">舞</div>
-        <h3>A Japanese artist who mastered European ballet</h3>
-        <p class="who">Taro — Japan</p>
-      </div>
-      <div class="pane dark">
-        <div class="big-kanji" aria-hidden="true">武</div>
-        <h3>A Hungarian artist who mastered Japanese martial arts</h3>
-        <p class="who">Szénási Gergely Zoltán — Hungary</p>
-      </div>
-      <div class="divider" aria-hidden="true"></div>
-    </div>
-    <p class="paradox-caption">Drag the line — light and shadow meet on a Frisian stage</p>
-  </div>
+  <figure class="vision-figure reveal">
+    <img src="images/duo.jpg" alt="Two performers — one in white, one in black — light and shadow on one stage">
+    <figcaption>Study image — toward A Tale of Japan</figcaption>
+  </figure>
 </section>
 
 <!-- ───── THE COMPANY ───── -->
@@ -466,8 +419,7 @@ footer a:hover{text-decoration:underline}
       <h3>Taro</h3>
       <p class="role">Ballet</p>
       <p class="nation">Japan</p>
-      <!-- Until the partnership is confirmed, keep the line below.
-           Once confirmed: delete it. -->
+      <!-- Until the partnership is confirmed, keep the line below. Once confirmed: delete it. -->
       <p class="status">Partnership in development</p>
     </div>
 
@@ -512,7 +464,6 @@ function playTaiko(){
   try{
     audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
     const t = audioCtx.currentTime;
-    // body of the drum: deep pitch-dropping tone
     const osc = audioCtx.createOscillator();
     const og = audioCtx.createGain();
     osc.type='sine';
@@ -521,7 +472,6 @@ function playTaiko(){
     og.gain.setValueAtTime(.9,t);
     og.gain.exponentialRampToValueAtTime(.001,t+1.4);
     osc.connect(og).connect(audioCtx.destination);
-    // skin slap: short filtered noise burst
     const len = audioCtx.sampleRate*0.12;
     const buf = audioCtx.createBuffer(1,len,audioCtx.sampleRate);
     const d = buf.getChannelData(0);
@@ -550,16 +500,13 @@ st.addEventListener('click',()=>{
   st.setAttribute('aria-pressed',String(soundOn));
 });
 
-/* ───── katana glint + candlelight follow the cursor ───── */
+/* ───── katana glint follows the cursor ───── */
 const hero=document.getElementById('hero');
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(!reduceMotion){
   hero.addEventListener('pointermove',e=>{
     const r=hero.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width)*100;
     const y=((e.clientY-r.top)/r.height)*100;
-    hero.style.setProperty('--cx',x+'%');
-    hero.style.setProperty('--cy',y+'%');
     hero.querySelector('.blade').style.setProperty('--gy',y+'%');
   });
 }
