@@ -262,6 +262,46 @@ h2{
 .member .nation{margin-top:.45rem;font-size:.64rem;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--gold)}
 .member .status{margin-top:.6rem;font-size:.58rem;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;color:var(--ink-dim);opacity:.8}
 
+
+/* ───── FORMS — ink on paper ───── */
+.bos-form{margin-top:2.6rem;max-width:640px}
+.bos-form .row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.bos-form .row.single{grid-template-columns:1fr}
+.bos-form label{
+  display:block;margin-bottom:1.6rem;
+  font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-dim);
+}
+.bos-form input,.bos-form textarea,.bos-form select{
+  display:block;width:100%;margin-top:.55rem;
+  background:transparent;border:0;border-bottom:1px solid rgba(26,23,18,.3);
+  padding:.55rem 2px;font-family:var(--sans);font-weight:300;font-size:.95rem;
+  color:var(--ink);letter-spacing:.03em;border-radius:0;
+}
+.bos-form input:focus,.bos-form textarea:focus{outline:none;border-bottom-color:var(--gold)}
+.bos-form textarea{resize:vertical;min-height:90px}
+.bos-form button{
+  background:none;border:1px solid var(--gold);color:var(--gold);
+  font-family:var(--sans);font-weight:400;letter-spacing:.38em;text-indent:.38em;
+  text-transform:uppercase;font-size:.68rem;padding:.95rem 2.6rem;cursor:pointer;
+  transition:background .5s,color .5s;
+}
+.bos-form button:hover{background:var(--gold);color:var(--paper)}
+.proof{
+  margin-top:1.2rem;font-size:.64rem;letter-spacing:.3em;text-indent:.3em;
+  text-transform:uppercase;color:var(--ink-dim);line-height:2.2;
+}
+.proof .gold{color:var(--gold)}
+.credit-line{
+  margin-top:1.6rem;font-size:.62rem;letter-spacing:.34em;text-indent:.34em;
+  text-transform:uppercase;color:var(--ink-dim);
+}
+.newsletter-band{
+  border-top:1px solid rgba(26,23,18,.15);
+  max-width:none;padding:6rem 2rem;
+}
+.newsletter-inner{max-width:1100px;margin:0 auto}
+@media (max-width:640px){.bos-form .row{grid-template-columns:1fr}}
+
 /* ───── FOOTER ───── */
 footer{
   border-top:1px solid rgba(26,23,18,.15);padding:4.5rem 2rem 3.5rem;
@@ -321,6 +361,7 @@ footer a:hover{text-decoration:underline}
     <p class="premiere">World premiere — Q1 2027
       <span>Posthuis Theater · Heerenveen · The Netherlands</span>
     </p>
+    <p class="credit-line">Created &amp; directed by Tara de Jong</p>
   </div>
   <p class="scroll-hint">Scroll</p>
 </header>
@@ -395,6 +436,8 @@ footer a:hover{text-decoration:underline}
   <div class="reveal">
     <p class="label">The Company <span class="jp">座</span></p>
     <h2>Who we are</h2>
+    <p class="proof">Founded 2026 · Leeuwarden, Fryslân — The Netherlands<br>
+    <span class="gold">On stage at Awaji Art Circus · Japan — 2026</span></p>
   </div>
   <div class="company reveal">
 
@@ -447,10 +490,66 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
+<!-- ───── FOR ARTISTS — casting form ───── -->
+<section id="artists">
+  <div class="reveal">
+    <p class="label">For Artists <span class="jp">出演</span></p>
+    <h2>Join the company.</h2>
+    <p class="lede">We work with martial artists, dancers, circus performers and musicians who cross borders for their craft. Introduce yourself — we read everything.</p>
+  </div>
+  <!-- FormSubmit: eerste inzending stuurt een bevestigingsmail naar mail@skyld.nl — die link 1x aanklikken om te activeren -->
+  <form class="bos-form reveal" action="https://formsubmit.co/mail@skyld.nl" method="POST">
+    <input type="hidden" name="_subject" value="BOS — Artist application">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none">
+    <input type="hidden" name="_next" value="https://action-perfomances.vercel.app/thanks.html">
+    <div class="row">
+      <label>Name<input type="text" name="name" required></label>
+      <label>Email<input type="email" name="email" required></label>
+    </div>
+    <div class="row">
+      <label>Country<input type="text" name="country" required></label>
+      <label>Discipline<input type="text" name="discipline" placeholder="martial arts · dance · circus · music" required></label>
+    </div>
+    <div class="row single">
+      <label>Showreel link<input type="url" name="showreel" placeholder="https://"></label>
+    </div>
+    <div class="row single">
+      <label>Message<textarea name="message"></textarea></label>
+    </div>
+    <button type="submit">Send application</button>
+  </form>
+</section>
+
+<!-- ───── NEWSLETTER — upcoming projects ───── -->
+<section class="newsletter-band">
+  <div class="newsletter-inner">
+    <div class="reveal">
+      <p class="label">Stay close <span class="jp">便り</span></p>
+      <h2>Upcoming projects.</h2>
+      <p class="lede">Tell us where you are — we'll write when a performance comes near you. Nothing else.</p>
+    </div>
+    <form class="bos-form reveal" action="https://formsubmit.co/mail@skyld.nl" method="POST">
+      <input type="hidden" name="_subject" value="BOS — Newsletter signup">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" style="display:none">
+      <input type="hidden" name="_next" value="https://action-perfomances.vercel.app/thanks.html">
+      <div class="row">
+        <label>Email<input type="email" name="email" required></label>
+        <label>Country<input type="text" name="country" required></label>
+      </div>
+      <div class="row single">
+        <label>City<input type="text" name="city"></label>
+      </div>
+      <button type="submit">Keep me posted</button>
+    </form>
+  </div>
+</section>
+
 <!-- ───── FOOTER ───── -->
 <footer>
   <p class="f-name">Blade of Shadow</p>
-  <p>A production of Stichting Action Performances · Leeuwarden, Fryslân</p>
+  <p>A production of Stichting Action Performances · Founded 2026 · Leeuwarden, Fryslân</p>
   <p style="margin-top:.9rem"><a href="mailto:mail@skyld.nl">Contact</a></p>
   <button id="sound-toggle" aria-pressed="true">Sound: on</button>
 </footer>
