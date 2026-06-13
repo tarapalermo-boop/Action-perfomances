@@ -58,7 +58,7 @@ body::after{
 #gate .kanji-fill{ fill:var(--ink); }
 /* the brush wipes downward, revealing the character as if being painted */
 #gate.draw #wiperect{ animation:ink-wipe 1.5s cubic-bezier(.85,0,.55,1) forwards; }
-@keyframes ink-wipe{ from{height:0} to{height:780px} }
+@keyframes ink-wipe{ from{height:0} to{height:980px} }
 
 #gate .name{
   font-weight:400;letter-spacing:.55em;text-indent:.55em;
@@ -80,7 +80,7 @@ body::after{
 #enter:focus-visible{background:var(--gold);color:var(--paper)}
 #enter:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 @media (prefers-reduced-motion:reduce){
-  #gate #wiperect{height:780px;animation:none}
+  #gate #wiperect{height:980px;animation:none}
   #gate .name,#gate #enter{opacity:1;animation:none}
   #gate #enter{pointer-events:auto}
 }
