@@ -47,7 +47,7 @@ body::after{
 
 /* ───── ENTRY GATE — through shadow, into light ───── */
 #gate{
-  position:fixed;inset:0;z-index:100;background:var(--night);
+  position:fixed;inset:0;z-index:100;background:var(--paper);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
   transition:opacity 1.6s ease, visibility 1.6s;
 }
@@ -55,31 +55,32 @@ body::after{
 #gate .kanji-svg{
   width:clamp(8rem,24vw,13rem);height:auto;overflow:visible;user-select:none;
 }
-#gate .kanji-fill{ fill:rgba(232,221,199,.9); }
+#gate .kanji-fill{ fill:var(--ink); }
 /* the brush wipes downward, revealing the character as if being painted */
-#gate.draw #wiperect{ animation:ink-wipe 3.4s cubic-bezier(.45,.05,.3,1) forwards; }
+#gate.draw #wiperect{ animation:ink-wipe 1.5s cubic-bezier(.85,0,.55,1) forwards; }
 @keyframes ink-wipe{ from{height:0} to{height:780px} }
 
 #gate .name{
   font-weight:400;letter-spacing:.55em;text-indent:.55em;
-  font-size:.8rem;text-transform:uppercase;color:rgba(232,221,199,.55);
+  font-size:.8rem;text-transform:uppercase;color:var(--ink-dim);
   opacity:0;
 }
-#gate.draw .name{animation:fade-up 1.8s ease 3.4s forwards}
+#gate.draw .name{animation:fade-up 1.4s ease 1.6s forwards}
 #enter{
-  background:none;border:1px solid rgba(201,162,39,.4);color:#c9a227;
+  background:none;border:1px solid var(--gold);color:var(--gold);
   font-family:var(--sans);font-weight:300;letter-spacing:.4em;text-indent:.4em;
   text-transform:uppercase;font-size:.7rem;padding:.9rem 2.6rem;cursor:pointer;
-  transition:border-color .6s,background .6s;
+  transition:background .6s,color .6s;
   opacity:0;pointer-events:none;
 }
-#gate.draw #enter{animation:fade-up 1.8s ease 4.2s forwards}
+#enter:hover{background:var(--gold);color:var(--paper)}
+#gate.draw #enter{animation:fade-up 1.4s ease 2.2s forwards}
 #gate.draw #enter{pointer-events:auto}
 @keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-#enter:hover,#enter:focus-visible{border-color:#c9a227;background:rgba(201,162,39,.08)}
-#enter:focus-visible{outline:1px solid #c9a227;outline-offset:4px}
+#enter:focus-visible{background:var(--gold);color:var(--paper)}
+#enter:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 @media (prefers-reduced-motion:reduce){
-  #gate #wiperect{height:1080px;animation:none}
+  #gate #wiperect{height:780px;animation:none}
   #gate .name,#gate #enter{opacity:1;animation:none}
   #gate #enter{pointer-events:auto}
 }
@@ -461,17 +462,17 @@ footer a:hover{text-decoration:underline}
   <div class="company reveal">
 
     <div class="member">
-      <div class="portrait"><img src="images/tara.jpg" alt="Tara de Jong" style="object-position:center 35%"></div>
-      <h3>Tara de Jong</h3>
-      <p class="role">Artistic director · Performer</p>
-      <p class="nation">The Netherlands</p>
-    </div>
-
-    <div class="member">
       <div class="portrait"><img src="images/gergely.jpg" alt="Szénási Gergely Zoltán" style="object-position:center 20%"></div>
       <h3>Szénási Gergely Zoltán</h3>
       <p class="role">Martial arts · Stunt choreography</p>
       <p class="nation">Hungary</p>
+    </div>
+
+    <div class="member">
+      <div class="portrait"><img src="images/tara.jpg" alt="Tara de Jong" style="object-position:center 35%"></div>
+      <h3>Tara de Jong</h3>
+      <p class="role">Artistic director · Performer</p>
+      <p class="nation">The Netherlands</p>
     </div>
 
     <div class="member">
