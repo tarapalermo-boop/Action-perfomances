@@ -52,23 +52,37 @@ body::after{
   transition:opacity 1.6s ease, visibility 1.6s;
 }
 #gate.open{opacity:0;visibility:hidden}
-#gate .kanji{
-  font-family:var(--jp);font-weight:200;font-size:clamp(7rem,22vw,15rem);
-  color:transparent;-webkit-text-stroke:1px rgba(232,221,199,.22);
-  line-height:1;user-select:none;
+#gate .kanji-svg{
+  width:clamp(8rem,24vw,13rem);height:auto;overflow:visible;user-select:none;
 }
+#gate .kanji-fill{ fill:rgba(232,221,199,.9); }
+/* the brush wipes downward, revealing the character as if being painted */
+#gate.draw #wiperect{ animation:ink-wipe 3.4s cubic-bezier(.45,.05,.3,1) forwards; }
+@keyframes ink-wipe{ from{height:0} to{height:780px} }
+
 #gate .name{
   font-weight:400;letter-spacing:.55em;text-indent:.55em;
   font-size:.8rem;text-transform:uppercase;color:rgba(232,221,199,.55);
+  opacity:0;
 }
+#gate.draw .name{animation:fade-up 1.8s ease 3.4s forwards}
 #enter{
   background:none;border:1px solid rgba(201,162,39,.4);color:#c9a227;
   font-family:var(--sans);font-weight:300;letter-spacing:.4em;text-indent:.4em;
   text-transform:uppercase;font-size:.7rem;padding:.9rem 2.6rem;cursor:pointer;
   transition:border-color .6s,background .6s;
+  opacity:0;pointer-events:none;
 }
+#gate.draw #enter{animation:fade-up 1.8s ease 4.2s forwards}
+#gate.draw #enter{pointer-events:auto}
+@keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 #enter:hover,#enter:focus-visible{border-color:#c9a227;background:rgba(201,162,39,.08)}
 #enter:focus-visible{outline:1px solid #c9a227;outline-offset:4px}
+@media (prefers-reduced-motion:reduce){
+  #gate #wiperect{height:1080px;animation:none}
+  #gate .name,#gate #enter{opacity:1;animation:none}
+  #gate #enter{pointer-events:auto}
+}
 
 /* ───── HERO ───── */
 .hero{
@@ -155,7 +169,7 @@ h2{
 }
 .lede{max-width:46ch;color:var(--ink-dim);line-height:1.9;font-size:.95rem}
 
-.reveal{opacity:0;transform:translateY(26px);transition:opacity 1.4s ease,transform 1.4s ease}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 2s cubic-bezier(.2,.6,.2,1),transform 2s cubic-bezier(.2,.6,.2,1)}
 .reveal.in{opacity:1;transform:none}
 
 /* ───── THE PARADOX — draggable diptych ───── */
@@ -335,7 +349,14 @@ footer a:hover{text-decoration:underline}
 
 <!-- ───── ENTRY GATE — one taiko strike, then the paper opens ───── -->
 <div id="gate">
-  <div class="kanji">影</div>
+  <svg class="kanji-svg" viewBox="0 -120 1000 1000" role="img" aria-label="影 — shadow">
+    <defs>
+      <clipPath id="inkwipe"><rect id="wiperect" x="-40" y="-120" width="1080" height="0"/></clipPath>
+    </defs>
+    <g transform="translate(0,780) scale(1,-1)">
+      <path class="kanji-fill" d="M384 143 373 134C413 104 462 49 477 8C528 -24 559 83 384 143ZM176 150C149 102 90 36 33 -4L45 -19C109 15 172 68 206 109C228 105 236 108 241 118ZM866 818C785 714 670 622 558 555L569 537C694 595 815 680 900 769C921 764 930 766 937 776ZM876 556C794 440 679 344 558 275L568 257C702 317 824 406 910 508C932 504 941 506 947 516ZM894 289C797 126 662 22 499 -54L508 -73C686 -7 826 92 931 242C954 237 963 240 969 251ZM276 544V458H34L41 429H573C587 429 597 433 599 444C571 471 526 506 526 506L488 458H320V509C342 513 352 522 353 535ZM161 765H449V687H161ZM116 795V503H122C145 503 161 516 161 520V546H449V521H455C470 521 493 533 494 539V756C512 760 530 767 537 775L469 827L439 795H172L116 822ZM161 657H449V575H161ZM167 334H441V239H167ZM122 364V165H128C151 165 167 175 167 178V210H279V4C279 -8 275 -13 259 -13C242 -13 165 -7 165 -7V-23C200 -27 221 -31 233 -40C242 -47 247 -61 248 -73C313 -65 323 -36 323 4V210H441V172H447C461 172 485 181 486 186V327C502 330 518 338 524 345L460 393L433 364H178L122 390Z" clip-path="url(#inkwipe)"/>
+    </g>
+  </svg>
   <div class="name">Blade of Shadow</div>
   <button id="enter">Enter</button>
 </div>
@@ -580,8 +601,9 @@ function playTaiko(){
   }catch(e){}
 }
 
-/* entry gate */
+/* entry gate — begin the ink reveal on load */
 const gate=document.getElementById('gate');
+requestAnimationFrame(()=>requestAnimationFrame(()=>gate.classList.add('draw')));
 document.getElementById('enter').addEventListener('click',()=>{
   playTaiko();
   gate.classList.add('open');
@@ -629,7 +651,7 @@ dip.addEventListener('keydown',e=>{
 /* scroll reveals */
 const io=new IntersectionObserver(es=>{
   es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
-},{threshold:.18});
+},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
